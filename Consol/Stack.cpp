@@ -3,7 +3,6 @@
 
 
 
-
 void Stack::add(const int value)
 {
 	elem* a = new elem;
@@ -21,6 +20,14 @@ bool Stack::pop(int& value)
 	delete t;
 	return true;
 
+}
+bool Stack::pop()
+{
+	if (root == nullptr)return false;
+	elem* t = root;
+	root = root->next;
+	delete t;
+	return true;
 }
 
 bool Stack::get(int& value)
@@ -52,7 +59,6 @@ string Stack::toString()
 
 Stack::~Stack()
 {
-	int a = 0;
 	while (!isEmpty())
-		pop(a);
+		pop();
 }
