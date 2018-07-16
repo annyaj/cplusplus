@@ -75,6 +75,18 @@ int List::pop()
 	return 0;
 }
 
+int List::get()
+{
+
+	return current->value;
+}
+
+
+bool List::isEmpty()
+{
+	
+	return root==nullptr;
+}
 
 string List::toString()
 {
@@ -101,6 +113,10 @@ void List::next()
 bool List::end()
 {
 	return (current->next ==nullptr);
+}
+
+void List::sort(List list, SortOrder order)
+{
 }
 
 List::~List()

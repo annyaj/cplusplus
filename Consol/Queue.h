@@ -2,20 +2,25 @@
 #include <string>
 
 using namespace std;
-class Stack
+class Queue
 {
 	struct elem
 	{
-		int value;
-		elem* next;
+		int value = 0;
+		elem* next = nullptr;
+		elem() {}
+		elem(int value, elem* next) {
+			this->value = value;
+			this->next = next;
+		}
 	};
+
+
 	elem* root = nullptr;
-
-
+	elem* tail = nullptr;
 public:
-	Stack()
+	Queue()
 	{
-		root = nullptr;
 	}
 	void add(const int value);
 	bool pop(int& value);
@@ -23,6 +28,6 @@ public:
 	bool get(int& value);
 	bool isEmpty();
 	string toString();
-	~Stack();
+	~Queue();
 };
 

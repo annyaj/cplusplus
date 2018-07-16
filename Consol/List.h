@@ -1,7 +1,10 @@
 #pragma once
 #include <string>
-
+#include "SortOrder.h"
 using namespace std;
+
+
+
 
 class List
 {
@@ -12,6 +15,7 @@ class List
 	};
 	elem* root;
 	elem* current;
+
 
 public:
 	List()
@@ -27,6 +31,8 @@ public:
 	void begin();
 	void next();
 	bool end();
+
+	static void sort(List list, SortOrder order);
 
 	~List();
 };
