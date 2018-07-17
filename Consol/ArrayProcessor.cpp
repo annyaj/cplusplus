@@ -43,6 +43,26 @@ void ArrayProcessor::bubble_sort(int * values, const int size)
 		cout << "/>" << endl;
 	}
 }
+void ArrayProcessor::selection_sort(int*values, const int size)
+{
+	for (int i = 0; i < size - 1; i++)
+	{
+		int min = i;
+		cout << "<DEBUG: " << endl;
+		for (int k = 0; k < 10; k++)
+			cout << values[k] << " ";
+		for (int j = i + 1; j < size; j++)
+		{
+			if (values[j] < values[min])
+				min = j;
+		}
+		if (min != i)
+		{
+			cout << "\t<swap " << values[i] << " with " << values[min] << ">" << endl;
+			swap(values[i], values[min]);
+		}
+	}
+}
 
 void ArrayProcessor::insertion_sort(int * values, const int size)
 {
@@ -58,3 +78,17 @@ void ArrayProcessor::insertion_sort(int * values, const int size)
 		values[j] = x;		
 	}
 }
+
+void ArrayProcessor::shell_sort(int* values, const int size)
+{
+	for (int d = size/2; d > 0; d / 2)
+	{
+		for (int i = d; i < size; i++)
+		{
+			for (int j = i; j >= d && values[j] < values[j - d]; j -= d)
+				swap(values[j], values[j - d]);
+		}
+	}
+
+}
+
