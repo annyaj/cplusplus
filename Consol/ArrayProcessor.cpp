@@ -81,7 +81,7 @@ void ArrayProcessor::insertion_sort(int * values, const int size)
 
 void ArrayProcessor::shell_sort(int* values, const int size)
 {
-	for (int d = size/2; d > 0; d / 2)
+	for (int d = size/2; d > 0; d=d / 2)
 	{
 		for (int i = d; i < size; i++)
 		{

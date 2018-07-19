@@ -3,7 +3,7 @@
 
 
 
-void Queue::add(const int value)
+void Queue::add( int value)
 {
 	elem* t = new elem(value, nullptr);
 	if (root == nullptr)
@@ -45,7 +45,7 @@ bool Queue::get(int & value)
 	return true;
 }
 
-bool Queue::isEmpty()
+bool Queue::isEmpty() const
 {
 	return root == nullptr;
 }

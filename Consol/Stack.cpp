@@ -38,7 +38,7 @@ bool Stack::get(int& value)
 	return true;
 }
 
-bool Stack::isEmpty()
+bool Stack::isEmpty()const
 {
 
 	return root==nullptr;

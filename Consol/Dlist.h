@@ -70,10 +70,9 @@ public:
 		if (head == nullptr)return false;
 		elem* t = head;
 		value = head->value;
-		t->prev = nullptr;
-		t->next = nullptr;
-		delete t;
 		head = head->next;
+		head->prev = nullptr;
+		delete t;
 		return true;
 	}
 	bool pop_back(int& value)
@@ -81,10 +80,9 @@ public:
 		if (head == nullptr)return false;
 		elem* t = tail;
 		value = t->value;
-		t->prev = nullptr;
-		t->next = nullptr;
-		delete t;
+		tail->prev->next = nullptr;
 		tail = tail->prev;
+		delete t;
 		return true;
 	}
 	bool pop_cur(int& value)
