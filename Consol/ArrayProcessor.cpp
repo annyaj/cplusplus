@@ -81,12 +81,14 @@ void ArrayProcessor::insertion_sort(int * values, const int size)
 
 void ArrayProcessor::shell_sort(int* values, const int size)
 {
-	for (int d = size/2; d > 0; d=d / 2)
+	for (int d = size/2; d > 0; d = d/2)
 	{
 		for (int i = d; i < size; i++)
 		{
-			for (int j = i; j >= d && values[j] < values[j - d]; j -= d)
-				swap(values[j], values[j - d]);
+			for (int j = i; j >= d; j = j - d)
+			{
+				if(values[j-d] > values[j])swap(values[j-d], values[j]);
+			}
 		}
 	}
 

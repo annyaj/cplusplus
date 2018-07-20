@@ -34,6 +34,7 @@ public:
 	{
 		root = nullptr;
 	}
+	void reverse(const Stack& old,Stack& rev);
 	void add(const int value);
 	bool pop(int& value);
 	bool pop();

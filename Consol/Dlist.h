@@ -25,37 +25,27 @@ public:
 	Dlist()
 	{
 	};
-	void push_front(int value)
+	Dlist(const Dlist& old)
 	{
-		elem* t = new elem(value, nullptr, nullptr);
-		if (head == nullptr)
-			head = tail = t;
-		else
+		head = new elem(old.head->value, nullptr, nullptr);
+		elem* prev  = head;
+		for (elem* el = old.head->next; el != nullptr; el = el->next)
 		{
-			t->next = head;
-			head->prev = t;
-			head = t;
+			elem* current = new elem(el->value,prev,nullptr);
+			prev->next = current;
+			prev = current;
 		}
+		tail = prev;
 	}
-
-	void push_back(const int value)
+	void push(const int value)
 	{
 		elem* t = new elem(value, nullptr, nullptr);
 		if (head == nullptr)
-			head = tail = t;
-		else
 		{
-			tail->next = t;
-			t->prev = tail;
-			tail = t;
-		}
-	}
-	void insert_cur(const int value)
-	{
-		elem* t = new elem(value, nullptr, nullptr);
-		if (head == nullptr)
 			head = tail = t;
-		else
+			current = t;
+		}
+		else if (current->next!=nullptr)
 		{
 			t->next = current->next;
 			current->next->prev = t;
@@ -63,40 +53,51 @@ public:
 			t->prev = current;
 			current = t;
 		}
+		else
+		{
+			current->next = t;
+			t->prev = current;
+			current = t->prev;
+		}
 	}
 
-	bool pop_front(int& value)
-	{
-		if (head == nullptr)return false;
-		elem* t = head;
-		value = head->value;
-		head = head->next;
-		head->prev = nullptr;
-		delete t;
-		return true;
-	}
-	bool pop_back(int& value)
-	{
-		if (head == nullptr)return false;
-		elem* t = tail;
-		value = t->value;
-		tail->prev->next = nullptr;
-		tail = tail->prev;
-		delete t;
-		return true;
-	}
-	bool pop_cur(int& value)
+
+	bool pop(int& value)
 	{
 		if (head == nullptr)return false;
 		value = current->value;
-		elem* pc = current->prev;
-		elem* nc = current->next;
-		pc->next = nc;
-		nc->prev = pc;
-		current->prev = nullptr;
-		current->next = nullptr;
-		delete current;
-		current = pc;
+		if (current == head)
+		{
+			if (head->next != nullptr)
+			{
+				head = head->next;
+				delete current;
+				current = head;
+			}
+			else
+			{
+				delete current;
+				head = tail= nullptr;
+				current = nullptr;
+			}
+		}
+		else if (current->next== nullptr)
+		{
+			tail=tail->prev;
+			delete current;
+			current = tail;
+		}
+		else
+		{
+			
+			elem* pc = current->prev;
+			elem* nc = current->next;
+			pc->next = nc;
+			nc->prev = pc;
+			delete current;
+			current = pc;
+		}
+
 		return true;
 	}
 	int get()
