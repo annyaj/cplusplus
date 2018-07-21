@@ -40,6 +40,7 @@ public:
 			prev = current;
 		}
 	}
+	void rev();
 	void add(int value);
 	int pop();
 	int get();
@@ -48,8 +49,7 @@ public:
 	void begin();
 	void next();
 	bool end();
-
-	static void sort(List list, SortOrder order);
+	void sort(SortOrder order);
 
 	~List();
 };

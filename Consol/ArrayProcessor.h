@@ -12,7 +12,7 @@ public:
 	static void selection_sort(int* values, const int size);
 	static void insertion_sort(int* values, const int size);
 	static void shell_sort(int* values, const int size);
-
+	static void opti_buble_sort(int* values, const int size);
 
 };
 

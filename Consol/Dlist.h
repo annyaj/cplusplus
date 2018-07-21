@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "SortOrder.h"
 
 using namespace std;
 class Dlist
@@ -120,7 +121,74 @@ public:
 		s += to_string(t->value);
 		return s;
 	}
+	void set_begin()
+	{
+		current = head;
+	}
+	bool is_begin()
+	{
+		return current == head;
+	}
 
+	void next()
+	{
+		current = current->next;
+	}
+	void prev()
+	{
+		current = current->prev;
+
+	}
+	bool end()const
+	{
+		return (current == nullptr);
+	}
+	void sort(SortOrder order)
+	{
+		if (head == nullptr || head->next == nullptr)return;
+		bool flag = true;
+		current = head->next;
+		do
+		{
+			flag = true;
+			for (current = head->next; !end(); current = current->next)
+			{
+				if (order == SortOrder::Ascending)
+				{
+					if (current->value < current->prev->value)
+					{
+						swap(current->value, current->prev->value);
+						flag = false;
+					}
+				}
+				else
+				{
+					if (current->value > current->prev->value)
+					{
+						swap(current->value, current->prev->value);
+						flag = false;
+					}
+
+				}
+			}
+			if (flag)break;
+		} while (!flag);
+	}
+	void rev()
+	{
+		elem* pr = nullptr;
+		elem* nx = nullptr;
+		current = head;
+		while (current->next!= nullptr)
+		{
+			pr = current->prev;
+			nx = current->next;
+			current->prev = nx;
+			current->next = pr;
+			current = nx;
+		}current->next = current->prev;
+		head = current;
+	}
 	~Dlist();
 };
 

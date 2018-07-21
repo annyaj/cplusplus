@@ -94,3 +94,21 @@ void ArrayProcessor::shell_sort(int* values, const int size)
 
 }
 
+void ArrayProcessor::opti_buble_sort(int * values, const int size)
+{
+	bool flag = true;
+	do
+	{
+		flag = true;
+		for (int j = 0; j < size - 1; j++)
+		{
+			if (values[j] > values[j + 1]) {
+				std::swap(values[j], values[j + 1]);
+				flag = false;
+			}
+		}
+		if (flag) break;
+	} while (!flag);
+}
+
+

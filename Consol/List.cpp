@@ -3,6 +3,21 @@
 
 
 
+void List::rev()
+{
+	current = root;
+	elem* prev = nullptr;
+	elem* next = nullptr;
+	while (current != nullptr)
+	{
+		next = current->next;
+		current->next = prev;
+		prev = current;
+		current = next;
+	}
+	root = prev;
+}
+
 void List::add(int value)
 {
 	elem* a = new elem;
@@ -96,7 +111,7 @@ string List::toString()
 		ss +=to_string(current->value);
 		ss += " ";
 	}
-	ss += to_string(current->value);
+	//ss += to_string(current->value);
 	return ss;
 }
 
@@ -112,11 +127,40 @@ void List::next()
 
 bool List::end()
 {
-	return (current->next ==nullptr);
+	return (current ==nullptr);
 }
 
-void List::sort(List list, SortOrder order)
+void List::sort(SortOrder order)
 {
+	if (root == nullptr || root->next == nullptr)return;
+	elem* t = root;
+	current = root->next;
+	bool flag = true;
+	do
+	{
+		flag = true;
+		t = root;
+		current = root->next;
+		for (; !end(); t = t->next, current = current->next)
+		{
+			if (order == SortOrder::Ascending)
+			{
+				if (t->value > current->value) {
+					swap(t->value, current->value);
+					flag = false;
+				}
+			}
+			else
+			{
+				if (t->value < current->value)
+				{
+					swap(t->value, current->value);
+					flag = false;
+				}
+			}
+		}
+		if (flag) break;
+	} while (!flag);
 }
 
 List::~List()

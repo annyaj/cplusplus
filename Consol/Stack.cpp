@@ -3,17 +3,6 @@
 
 
 
-void Stack::reverse(const Stack & old, Stack& rev)
-{
-	if (old.isEmpty())return;
-	Stack copy(old);
-	while (!copy.isEmpty())
-	{
-		int value = 0;
-		copy.pop(value);
-		rev.add(value);
-	}
-}
 
 void Stack::add(const int value)
 {
