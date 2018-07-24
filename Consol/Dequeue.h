@@ -15,20 +15,59 @@ class Dequeue
 		}
 	};
 	elem* root = nullptr;
-	elem* tail = nullptr;
+	const elem* tail = new elem(4,nullptr);
 public:
-	Dequeue();
+	class iterator
+	{
+		elem* cur = nullptr;
+
+	public:
+		iterator() {}
+		iterator(elem* cur)
+		{
+			this->cur = cur;
+		}
+		bool operator==(iterator& it) {
+			return cur == it.cur;
+		}
+		bool operator!= (iterator& it)
+		{
+			return cur != it.cur;
+		}
+		iterator& operator++()
+		{
+			cur = cur->next;
+			return *this;
+		}
+		iterator(iterator& it)
+		{
+			cur = it.cur;
+		}
+		iterator& operator=(iterator& it)
+		{
+			cur = it.cur;
+			return *this;
+		}
+		int operator*()
+		{
+			return 	cur->value;
+		}
+
+	};
+	Dequeue() {
+	
+	}
 	Dequeue(const Dequeue& old)
 	{
 		root = new elem(old.root->value, nullptr);
 		elem* prev = root;
-		for (elem* el = old.root->next; el != nullptr; el = el->next)
+		for (elem* el = old.root->next; el != old.tail; el = el->next)
 		{
 			elem* current = new elem(el->value,nullptr);
 			prev->next = current;
 			prev = current;
 		}
-		tail = prev;
+		
 	}
 	void push_back(const int value);
 	void push_front(const int value);
@@ -36,6 +75,8 @@ public:
 	bool pop_front(int& value);
 	bool get(int& value);
 	bool isEmpty();
+	iterator& begin();
+	iterator& end();
 	string toString();
 	~Dequeue();
 };

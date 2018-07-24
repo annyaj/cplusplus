@@ -15,9 +15,49 @@ class Stack
 		}
 	};
 	elem* root = nullptr;
+	elem* tail = nullptr;
 
-	
+
 public:
+
+	class iterator
+	{
+		elem* cur = nullptr;
+		
+	public:
+		iterator() {}
+		iterator(elem* cur)
+		{
+			this->cur = cur;
+		}
+		bool operator==(iterator& it) {
+			return cur == it.cur;
+		}
+		bool operator!= (iterator& it)
+		{
+			return cur != it.cur;
+		}
+		iterator& operator++()
+		{
+			cur = cur->next;
+			return *this;
+		}
+		iterator(iterator& it)
+		{
+			cur = it.cur;
+		}
+		iterator& operator=(iterator& it)
+		{
+			cur = it.cur;
+			return *this;
+		}
+		int operator*()
+		{
+			return 	cur->value;
+		}
+
+	};
+	
 	Stack(const Stack& old)
 	{
 		if (old.isEmpty()) return;
@@ -39,6 +79,7 @@ public:
 	bool pop();
 	bool get(int& value);
 	bool isEmpty()const;
+	iterator& begin();
 	string toString();
 	~Stack();
 };

@@ -45,6 +45,13 @@ bool Stack::isEmpty()const
 	return root==nullptr;
 }
 
+Stack::iterator& Stack::begin()
+{
+	iterator* h = new iterator(root);
+	return *h;
+}
+
+
 string Stack::toString()
 {
 	string s = "";
