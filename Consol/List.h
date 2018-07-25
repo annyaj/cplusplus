@@ -21,9 +21,46 @@ class List
 	};
 	elem* root;
 	elem* current;
+	elem* tail = new elem(0, nullptr);
 
 
 public:
+	class iterator
+	{
+		elem* cur = nullptr;
+	public:
+		iterator() {}
+		iterator(elem* cur)
+		{
+			this->cur = cur;
+		}
+		iterator(iterator& it)
+		{
+			cur = it.cur;
+		}
+		bool operator ==(iterator& it)
+		{
+			return cur == it.cur;
+		}
+		bool operator!=(iterator& it)
+		{
+			return cur != it.cur;
+		}
+		iterator& operator++()
+		{
+			cur = cur->next;
+			return *this;
+		}
+		iterator& operator=(iterator& it)
+		{
+			cur = it.cur;
+			return *this;
+		}
+		int operator*()
+		{
+			return cur->value;
+		}
+	};
 	List()
 	{
 		root = nullptr;
@@ -46,9 +83,9 @@ public:
 	int get();
 	bool isEmpty();
 	string toString();
-	void begin();
+	iterator& begin();
 	void next();
-	bool end();
+	iterator& end();
 	void sort(SortOrder order);
 
 	~List();

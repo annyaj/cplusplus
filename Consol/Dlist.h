@@ -19,9 +19,45 @@ class Dlist
 
 	};
 	elem* head = nullptr;
-	elem* tail = nullptr;
+	elem* tail = new elem(0,nullptr,nullptr);
 	elem* current = nullptr;
 public:
+	class iterator
+	{
+		elem* cur = nullptr;
+
+	public:
+		iterator() {}
+		iterator(elem* cur)
+		{
+			this->cur = cur;
+		}
+		bool operator==(iterator& it) {
+			return cur == it.cur;
+		}
+		bool operator!= (iterator& it)
+		{
+			return cur != it.cur;
+		}
+		iterator& operator++()
+		{
+			cur = cur->next;
+			return *this;
+		}
+		iterator(iterator& it)
+		{
+			cur = it.cur;
+		}
+		iterator& operator=(iterator& it)
+		{
+			cur = it.cur;
+			return *this;
+		}
+		int operator*()
+		{
+			return 	cur->value;
+		}
+	};
 
 	Dlist()
 	{
@@ -36,18 +72,19 @@ public:
 			prev->next = current;
 			prev = current;
 		}
-		tail = prev;
 	}
 	void push(const int value)
 	{
-		elem* t = new elem(value, nullptr, nullptr);
+		
 		if (head == nullptr)
 		{
-			head = tail = t;
-			current = t;
+			elem* h = new elem(value, nullptr, tail);
+			head = h;
+			current = h;
 		}
 		else if (current->next!=nullptr)
 		{
+			elem* t = new elem(value, nullptr, nullptr);
 			t->next = current->next;
 			current->next->prev = t;
 			current->next = t;
@@ -56,16 +93,16 @@ public:
 		}
 		else
 		{
-			current->next = t;
-			t->prev = current;
-			current = t->prev;
+			elem* h = new elem(value, current, tail);
+			current->next = h;
+			current = h->prev;
 		}
 	}
 
 
 	bool pop(int& value)
 	{
-		if (head == nullptr)return false;
+		if (head == tail)return false;
 		value = current->value;
 		if (current == head)
 		{
@@ -78,15 +115,16 @@ public:
 			else
 			{
 				delete current;
-				head = tail= nullptr;
+				head= nullptr;
 				current = nullptr;
 			}
 		}
-		else if (current->next== nullptr)
+		else if (current->next== tail)
 		{
-			tail=tail->prev;
+			tail->prev = current->prev;
+			current->prev->next = tail;
 			delete current;
-			current = tail;
+			current = current->prev;
 		}
 		else
 		{
@@ -107,18 +145,17 @@ public:
 	}
 	bool isEmpty()
 	{
-		return (head == nullptr);
+		return (head == tail);
 	}
 	string toStr()
 	{
 		string s = "";
 		elem* t = head;
-		for (; t->next != nullptr; t = t->next)
+		for (; t!= tail; t = t->next)
 		{
 			s += to_string(t->value);
 			s += " ";
 		}
-		s += to_string(t->value);
 		return s;
 	}
 	void set_begin()
@@ -128,6 +165,16 @@ public:
 	bool is_begin()
 	{
 		return current == head;
+	}
+	iterator& begin()
+	{
+		iterator* b = new iterator(head);
+		return *b;
+	}
+	iterator& end()
+	{
+		iterator* e = new iterator(tail);
+		return *e;
 	}
 
 	void next()
@@ -139,19 +186,19 @@ public:
 		current = current->prev;
 
 	}
-	bool end()const
+	bool is_end()const
 	{
-		return (current == nullptr);
+		return (current == tail);
 	}
 	void sort(SortOrder order)
 	{
-		if (head == nullptr || head->next == nullptr)return;
+		if (head == tail || head->next == tail)return;
 		bool flag = true;
 		current = head->next;
 		do
 		{
 			flag = true;
-			for (current = head->next; !end(); current = current->next)
+			for (current = head->next; !is_end(); current = current->next)
 			{
 				if (order == SortOrder::Ascending)
 				{
@@ -179,7 +226,7 @@ public:
 		elem* pr = nullptr;
 		elem* nx = nullptr;
 		current = head;
-		while (current->next!= nullptr)
+		while (current->next!= tail)
 		{
 			pr = current->prev;
 			nx = current->next;

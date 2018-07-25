@@ -15,7 +15,7 @@ class Stack
 		}
 	};
 	elem* root = nullptr;
-	elem* tail = nullptr;
+	elem* tail = new elem(0, nullptr);
 
 
 public:
@@ -80,6 +80,7 @@ public:
 	bool get(int& value);
 	bool isEmpty()const;
 	iterator& begin();
+	iterator& end();
 	string toString();
 	~Stack();
 };

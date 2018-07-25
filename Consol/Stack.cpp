@@ -6,15 +6,22 @@
 
 void Stack::add(const int value)
 {
-	elem* a = new elem;
-	a->next = root;
-	root = a;
-	a-> value= value;
+	
+	if (root == nullptr)
+	{
+		elem* t = new elem(value,tail);
+		root = t;
+	}
+	else
+	{
+		elem* a = new elem(value,root);
+		root = a;
+	}
 }
 
 bool Stack::pop(int& value)
 {
-	if (root == nullptr) return false;
+	if (root==tail) return false;
 	elem* t = root;
 	value = root->value;
 	root = root->next;
@@ -24,7 +31,7 @@ bool Stack::pop(int& value)
 }
 bool Stack::pop()
 {
-	if (root == nullptr)return false;
+	if (root == tail)return false;
 	elem* t = root;
 	root = root->next;
 	delete t;
@@ -42,7 +49,13 @@ bool Stack::get(int& value)
 bool Stack::isEmpty()const
 {
 
-	return root==nullptr;
+	return root==tail;
+}
+
+Stack::iterator& Stack::end()
+{
+	iterator* e = new iterator(tail);
+	return *e;
 }
 
 Stack::iterator& Stack::begin()
@@ -56,7 +69,7 @@ string Stack::toString()
 {
 	string s = "";
 	elem* n = root;
-	for (; n->next != nullptr; n = n->next)
+	for (; n->next!= tail; n = n->next)
 	{
 		s += to_string(n->value);
 		s += " ";

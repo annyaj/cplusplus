@@ -20,24 +20,24 @@ void List::rev()
 
 void List::add(int value)
 {
-	elem* a = new elem;
-		a->next = nullptr;
-		a->value = value;
 	if (root == nullptr)
 	{
-		root = a;
-		current = a;
+		elem* t = new elem(value,tail);
+		root = t;
+		current = t;
 	}
 	else if (current->next != nullptr)
 	{
+		elem* a = new elem(value, nullptr);
 		a ->next = current->next;
 		current ->next = a;
 		current = a;
 	}
 	else
 	{
-		current->next = a;
-		current = a;
+		elem* t = new elem(value, tail);
+		current->next = t;
+		current = t;
 	}
 }
 
@@ -63,7 +63,7 @@ int List::pop()
 			current = nullptr;
 		}
 	}
-	else if (current->next == nullptr)
+	else if (current->next == tail)
 	{
 		elem* t = root;
 		while (t->next != current)
@@ -71,7 +71,7 @@ int List::pop()
 			t = t->next;
 		}
 		delete current;
-		t->next = nullptr;
+		t->next = tail;
 		current = t;
 
 	}
@@ -106,18 +106,18 @@ bool List::isEmpty()
 string List::toString()
 {
 	string ss = "";
-	for (begin(); !end(); next())
+	for (current=root; current!=tail; current=current->next)
 	{
 		ss +=to_string(current->value);
 		ss += " ";
 	}
-	//ss += to_string(current->value);
 	return ss;
 }
 
-void List::begin()
+List::iterator& List::begin()
 {
-	current = root;
+	iterator* b = new iterator(root);
+	return *b;
 }
 
 void List::next()
@@ -125,9 +125,10 @@ void List::next()
 	current = current->next;
 }
 
-bool List::end()
+List::iterator& List::end()
 {
-	return (current ==nullptr);
+	iterator* e=new iterator(tail);
+	return *e;
 }
 
 void List::sort(SortOrder order)
@@ -141,7 +142,7 @@ void List::sort(SortOrder order)
 		flag = true;
 		t = root;
 		current = root->next;
-		for (; !end(); t = t->next, current = current->next)
+		for (; current!=tail; t = t->next, current = current->next)
 		{
 			if (order == SortOrder::Ascending)
 			{

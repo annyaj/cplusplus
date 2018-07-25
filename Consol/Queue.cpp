@@ -5,14 +5,17 @@
 
 void Queue::add( int value)
 {
-	elem* t = new elem(value, nullptr);
+	elem* t = new elem(value, tail);
 	if (root == nullptr)
 	{
-		root = tail = t;
+		root = t;
 	}
 	else
-		tail->next = t;
-	tail = t;
+	{
+		elem* g = root;
+		while (g->next != tail)g = g->next;
+		g->next = t;
+	}
 }
 
 bool Queue::pop(int & value)
@@ -50,16 +53,27 @@ bool Queue::isEmpty() const
 	return root == nullptr;
 }
 
+Queue::iterator& Queue::begin()
+{
+	iterator* b = new iterator(root);
+	return *b;
+}
+
+Queue::iterator& Queue::end()
+{
+	iterator* e = new iterator(tail);
+	return *e;
+}
+
 string Queue::toString()
 {
 	string s = "";
 	elem* n = root;
-	for (; n->next != nullptr; n = n->next)
+	for (; n!=tail; n = n->next)
 	{
 		s += to_string(n->value);
 		s += " ";
 	}
-	s += to_string(n->value);
 	return s;
 }
 
